@@ -1,0 +1,52 @@
+# 🧱 The Chicago Illusion Stack (Blender-First, Unreal-Friendly)
+# Purpose:
+# - Organize modular Chicago assets
+# - Validate scale + structure
+# - Prep exports for Unreal Engine ingestion
+
+name: 🧱 Chicago Illusion Stack
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2️⃣ Validate project structure
+      - name: Validate Chicago district structure
+        run: |
+          echo "🔍 Checking city layout..."
+          test -d Assets/Chicago || (echo "❌ Missing Assets/Chicago" && exit 1)
+          test -d Assets/Chicago/Downtown || echo "⚠️ Downtown folder missing"
+          test -d Assets/Chicago/Industrial || echo "⚠️ Industrial folder missing"
+          test -d Assets/Chicago/Residential || echo "⚠️ Residential folder missing"
+          echo "✅ Structure check complete"
+
+      # 3️⃣ Scale sanity reminder (Blender → Unreal = meters)
+      - name: Scale sanity check (documentation gate)
+        run: |
+          echo "📏 Reminder:"
+          echo "- Blender Unit Scale = 1.0"
+          echo "- Apply transforms (Ctrl+A)"
+          echo "- Export FBX in meters for Unreal"
+
+      # 4️⃣ Placeholder for Blender CLI export (future-ready)
+      - name: Blender export placeholder
+        run: |
+          echo "🧠 Future step:"
+          echo "blender -b source.blend -P export_fbx.py"
+          echo "(Not executed yet—kept for pipeline growth)"
+
+      # 5️⃣ Final status
+      - name: Pipeline status
+        run: echo "🏙️ Chicago Illusion Stack pipeline passed"
